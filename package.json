@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview --host 127.0.0.1"
   },
   "keywords": [],
@@ -18,5 +20,8 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "vite": "^8.0.14"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }

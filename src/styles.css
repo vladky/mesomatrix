@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+
 :root {
   font-family:
     Inter,
@@ -118,7 +120,7 @@ button {
 }
 
 .product-card,
-.empty-state {
+.discount-card {
   position: absolute;
   width: min(100%, 390px);
   min-height: 520px;
@@ -289,32 +291,48 @@ button {
   background: #f2fbf8;
 }
 
-.empty-state {
+.discount-card {
   position: static;
   min-height: 420px;
   display: grid;
   place-items: center;
   align-content: center;
-  gap: 12px;
+  gap: 16px;
   padding: 28px;
   text-align: center;
 }
 
-.empty-state h2 {
+.discount-card h2 {
+  max-width: 310px;
   margin: 0;
-  font-size: 1.65rem;
-  letter-spacing: 0;
+  font-size: 1.6rem;
+  line-height: 1.12;
+  letter-spacing: -2%;
+  font-weight: 400;
 }
 
-.empty-state p {
+.countdown {
+  min-width: 210px;
+  padding: 12px 18px;
+  border: 1px solid rgba(30, 36, 40, 0.1);
+  border-radius: 8px;
+  background: #f6f3ee;
+  color: #223033;
+  font-size: 2.1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.discount-card p {
   max-width: 270px;
   margin: 0;
   color: #5f696e;
   line-height: 1.45;
 }
 
-.empty-state button {
-  margin-top: 10px;
+.discount-card button {
+  margin-top: 4px;
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -323,7 +341,7 @@ button {
   border: 0;
   border-radius: 999px;
   padding: 0 18px;
-  background: #223033;
+  background: #e84d70;
   color: #fff;
   font-weight: 800;
   cursor: pointer;
@@ -345,7 +363,7 @@ button {
   }
 
   .product-card,
-  .empty-state {
+  .discount-card {
     min-height: 486px;
   }
 

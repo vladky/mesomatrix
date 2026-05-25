@@ -9,24 +9,56 @@ import {
 } from 'framer-motion'
 import {
   Heart,
-  RotateCcw,
   SkipForward,
   Sparkles,
   ThumbsDown,
 } from 'lucide-react'
 import './styles.css'
 
+const imageUrls = {
+  azelaicAcidClean: new URL(
+    '../images/azelaic-acid-clean-base.webp',
+    import.meta.url,
+  ).href,
+  balancing: new URL('../images/aha-balancing-base.webp', import.meta.url)
+    .href,
+  dmaeComplex: new URL('../images/dmae-complex-base.webp', import.meta.url)
+    .href,
+  gelCleanser: new URL(
+    '../images/650x490-gel-ocishhaiushhii-skin-care-men-base.webp',
+    import.meta.url,
+  ).href,
+  hyaluronic: new URL('../images/hyaluronic-c-base.webp', import.meta.url)
+    .href,
+  lotion: new URL(
+    '../images/650x490-losyon-uspokaivaiushhii-skin-care-men-base.webp',
+    import.meta.url,
+  ).href,
+  moisturizer: new URL(
+    '../images/650x490-krem-uvlazniaiushhii-skin-care-men-base.webp',
+    import.meta.url,
+  ).href,
+  serum: new URL(
+    '../images/9a31cef6f1e52a7f394fe8b17430df1624abb938e7e5ff3d67816a4d76cfe40b-base.webp',
+    import.meta.url,
+  ).href,
+  toner: new URL('../images/500-ml-2025-06-04t160257872-base.webp', import.meta.url)
+    .href,
+  wash: new URL('../images/500-ml-2025-07-10t103741509-base.webp', import.meta.url)
+    .href,
+}
+
 const imageFiles = [
-  'azelaic-acid-clean-base.webp',
-  '500-ml-2025-07-10t103741509-base.webp',
-  '650x490-losyon-uspokaivaiushhii-skin-care-men-base.webp',
-  '500-ml-2025-06-04t160257872-base.webp',
-  '9a31cef6f1e52a7f394fe8b17430df1624abb938e7e5ff3d67816a4d76cfe40b-base.webp',
-  'dmae-complex-base.webp',
-  '650x490-krem-uvlazniaiushhii-skin-care-men-base.webp',
-  'hyaluronic-c-base.webp',
-  'aha-balancing-base.webp',
-  '650x490-gel-ocishhaiushhii-skin-care-men-base.webp',
+  imageUrls.azelaicAcidClean,
+  imageUrls.wash,
+  imageUrls.lotion,
+  imageUrls.toner,
+  imageUrls.serum,
+  imageUrls.dmaeComplex,
+  imageUrls.moisturizer,
+  imageUrls.hyaluronic,
+  imageUrls.balancing,
+  imageUrls.gelCleanser,
 ]
 
 const productTypes = ['Уходовая косметика', 'Декоративная косметика']
@@ -48,12 +80,12 @@ function shuffle(items) {
 }
 
 function createMockProducts() {
-  return imageFiles.map((fileName, index) => ({
-    id: `${index + 1}-${fileName}`,
+  return imageFiles.map((image, index) => ({
+    id: `mesomatrix-${index + 1}`,
     title: getRandomItem(brands),
     type: getRandomItem(productTypes),
     category: getRandomItem(categories),
-    image: `/images/${fileName}`,
+    image,
   }))
 }
 
@@ -135,6 +167,41 @@ function SwipeCard({ product, index, active, onSwipe, progress }) {
         <span>{product.category}</span>
       </div>
     </motion.article>
+  )
+}
+
+function formatCountdown(milliseconds) {
+  const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000))
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
+
+  return [hours, minutes, seconds]
+    .map((value) => String(value).padStart(2, '0'))
+    .join(':')
+}
+
+function DiscountOffer() {
+  const [expiresAt] = useState(() => Date.now() + 48 * 60 * 60 * 1000)
+  const [timeLeft, setTimeLeft] = useState(() => expiresAt - Date.now())
+
+  useEffect(() => {
+    const timerId = window.setInterval(() => {
+      setTimeLeft(expiresAt - Date.now())
+    }, 1000)
+
+    return () => window.clearInterval(timerId)
+  }, [expiresAt])
+
+  return (
+    <div className="discount-card">
+      <Sparkles size={34} aria-hidden="true" />
+      <h2>Вам доступна скидка&nbsp;<strong>20%</strong> на первый заказ</h2>
+      <div className="countdown" aria-label={`До конца акции ${formatCountdown(timeLeft)}`}>
+        {formatCountdown(timeLeft)}
+      </div>
+      <button type="button">Перейти к покупкам</button>
+    </div>
   )
 }
 
@@ -221,11 +288,6 @@ function App() {
     setDeck((items) => items.slice(1))
   }
 
-  function resetDeck() {
-    setLiked(0)
-    setDeck(pickRandomProducts(products))
-  }
-
   return (
     <main className="app-shell">
       <canvas
@@ -258,51 +320,36 @@ function App() {
             ))}
           </AnimatePresence>
 
-          {!current && (
-            <div className="empty-state">
-              <Sparkles size={34} aria-hidden="true" />
-              <h2>Подборка закончилась</h2>
-              <p>Соберем еще 6 случайных продуктов из каталога.</p>
-              <button type="button" onClick={resetDeck}>
-                <RotateCcw size={18} aria-hidden="true" />
-                Еще подборка
-              </button>
-            </div>
-          )}
+          {!current && <DiscountOffer />}
         </div>
 
-        <footer className="actions">
-          <div>
-            <button
-              className="action-button skip"
-              type="button"
-              aria-label="Пропустить товар"
-              onClick={() => current && handleSwipe('skip')}
-              disabled={!current}
-            >
-              <ThumbsDown size={25} aria-hidden="true" />
-            </button>
-            <button
-              className="action-button like"
-              type="button"
-              aria-label="Добавить товар в понравившиеся"
-              onClick={() => current && handleSwipe('like')}
-              disabled={!current}
-            >
-              <Heart size={27} aria-hidden="true" />
-            </button>
-          </div>
-          <div>
-            <button
-              className="skip-card-button"
-              type="button"
-              onClick={() => current && skipCard()}
-              disabled={!current}
-            >
-              Пропустить
-            </button>
-          </div>
-        </footer>
+        {current && (
+          <footer className="actions">
+            <div>
+              <button
+                className="action-button skip"
+                type="button"
+                aria-label="Пропустить товар"
+                onClick={() => handleSwipe('skip')}
+              >
+                <ThumbsDown size={25} aria-hidden="true" />
+              </button>
+              <button
+                className="action-button like"
+                type="button"
+                aria-label="Добавить товар в понравившиеся"
+                onClick={() => handleSwipe('like')}
+              >
+                <Heart size={27} aria-hidden="true" />
+              </button>
+            </div>
+            <div>
+              <button className="skip-card-button" type="button" onClick={skipCard}>
+                Пропустить
+              </button>
+            </div>
+          </footer>
+        )}
       </section>
     </main>
   )
