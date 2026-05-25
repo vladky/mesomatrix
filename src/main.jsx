@@ -64,7 +64,11 @@ const imageFiles = [
 const productTypes = ['Уходовая косметика', 'Декоративная косметика']
 const categories = ['Гель', 'Пудра', 'Пенка']
 const brands = ['Mesomatrix']
-const heartConfettiShape = confetti.shapeFromText({ text: '❤', scalar: 1.9 })
+const heartConfettiShape = confetti.shapeFromText({
+  text: '❤',
+  scalar: 1.9,
+  color: '#e84d70',
+})
 const starConfettiShape = confetti.shapeFromText({
   text: '★',
   scalar: 1.7,
@@ -148,7 +152,7 @@ function SwipeCard({ product, index, active, onSwipe, progress }) {
         Нравится
       </motion.div>
       <motion.div className="stamp stamp-skip" style={{ opacity: skipOpacity }}>
-        Пропуск
+        Не моё
       </motion.div>
 
       <div className="image-wrap">
