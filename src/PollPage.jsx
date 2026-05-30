@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import confetti from 'canvas-confetti'
 import {
   AnimatePresence,
@@ -201,7 +202,7 @@ function DiscountOffer() {
       <div className="countdown" aria-label={`До конца акции ${formatCountdown(timeLeft)}`}>
         {formatCountdown(timeLeft)}
       </div>
-      <button type="button">Перейти к покупкам</button>
+      <Link className="discount-link" to="/widget-demo">Перейти к покупкам</Link>
     </div>
   )
 }

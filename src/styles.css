@@ -336,7 +336,8 @@ button {
   line-height: 1.45;
 }
 
-.discount-card button {
+.discount-card button,
+.discount-card .discount-link {
   margin-top: 4px;
   min-height: 44px;
   display: inline-flex;
@@ -349,6 +350,7 @@ button {
   background: #e84d70;
   color: #fff;
   font-weight: 800;
+  text-decoration: none;
   cursor: pointer;
 }
 
